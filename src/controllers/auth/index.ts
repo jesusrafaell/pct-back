@@ -4,12 +4,12 @@ import { validationResult } from 'express-validator';
 import bcrypt from 'bcrypt';
 
 import jwt from 'jsonwebtoken';
-const key: string = '_secreto';
 
 import { getRepository } from 'typeorm';
 import Client from '../../db/models/client';
 import Users from '../../db/models/users';
-import Afiliado from 'db/models/afiliado';
+import Afiliado from '../../db/models/afiliado';
+import createToken from '../../utils/createToken';
 
 // getter a login
 export interface UserInt {
@@ -29,29 +29,39 @@ export const login = async (req: Request<any>, res: Response<any>, next: NextFun
 
 		if (!user) throw { message: 'Correo o Contraseña incorrecta', code: 400 };
 
-		console.log(user);
-
 		const { password, id, id_client, ...dataUser } = user;
-		//console.log(user.id_client?.id_commerce?.id);
+		const aux: any = user;
+
+		//console.log('id', aux.id_client.id_commerce);
 
 		const validPassword = await bcrypt.compare(req.body.password, password);
 		if (!validPassword) throw { message: 'Correo o Contraseña incorrecta', code: 400 };
 
-		console.log(validPassword);
-
 		if (!validPassword) throw { message: 'No es un cliente de Tranred', code: 400 };
 
-		/*
 		const nroAfiliado = await getRepository(Afiliado).findOne({
 			where: {
-				id_commerce: id_client.id_commerce.id,
+				id_commerce: aux?.id_client?.id_commerce?.id,
 			},
 		});
-		*/
 
-		//console.log(nroAfiliado);
+		//console.log(id_client);
 
-		res.status(400).json({ message: 'fin por ahora' });
+		const client: any = id_client;
+
+		const resUser = {
+			email: dataUser.email,
+			identType: client.id_ident_type.name,
+			identNum: client.ident_num,
+			numAfiliado: nroAfiliado?.numA,
+		};
+
+		const token: string = createToken(id!);
+		console.log(token);
+
+		//console.log(resUser);
+
+		res.status(200).json({ user: resUser, token: token, code: 200 });
 	} catch (err) {
 		res.status(400).json(err);
 		//next(err)
@@ -99,6 +109,52 @@ export const register = async (req: Request<any>, res: Response<any>, next: Next
 		});
 
 		res.status(200).json({ message: 'user registrado' });
+	} catch (err) {
+		res.status(400).json(err);
+		//next(err)
+	}
+};
+
+export const userData = async (req: Request<any>, res: Response<any>, next: NextFunction): Promise<void> => {
+	try {
+		const token: string = req.headers?.authorization!;
+
+		const { id }: any = jwt.verify(token, process.env.SECRET!);
+
+		//console.log('get User', id);
+
+		if (!token) throw { message: 'Falta Token' };
+
+		const user = await getRepository(Users).findOne({
+			where: { id },
+			relations: ['id_client', 'id_client.id_commerce', 'id_client.id_ident_type'],
+		});
+
+		if (!user) throw { message: 'Correo o Contraseña incorrecta', code: 400 };
+
+		const { password, id_client, ...dataUser } = user;
+		const aux: any = user;
+
+		const nroAfiliado = await getRepository(Afiliado).findOne({
+			where: {
+				id_commerce: aux?.id_client?.id_commerce?.id,
+			},
+		});
+
+		//console.log(nroAfiliado);
+
+		const client: any = id_client;
+
+		const resUser = {
+			email: dataUser.email,
+			identType: client.id_ident_type.name,
+			identNum: client.ident_num,
+			numAfiliado: nroAfiliado?.numA,
+		};
+
+		const newToken: string = createToken(id!);
+
+		res.status(200).json({ user: resUser, token: newToken, code: 200 });
 	} catch (err) {
 		res.status(400).json(err);
 		//next(err)

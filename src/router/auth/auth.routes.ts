@@ -1,5 +1,5 @@
 import { Router } from 'express';
-import { login, register } from '../../controllers/auth';
+import { login, register, userData } from '../../controllers/auth';
 //import { RegisterData, LoginData, PassMailData, RegisterData1, RegisterData2 } from '../../Middlewares/data/auth';
 
 const Auth: Router = Router();
@@ -12,4 +12,6 @@ Auth.route('/login').post(login);
 //
 Auth.route('/register').post(register);
 //
+Auth.route('/user').get(userData);
+
 export default Auth;

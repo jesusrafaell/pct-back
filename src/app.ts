@@ -3,7 +3,8 @@
 import { createConnection, getRepository } from 'typeorm';
 import express, { Application, Request, Response } from 'express';
 import Routes from './router';
-import cors, { CorsOptions } from 'cors';
+import cors from './Middlewares/secure';
+import { preRoutes } from './Middlewares';
 
 createConnection()
 	.then(async () => {
@@ -11,14 +12,10 @@ createConnection()
 
 		app.use(express.json());
 
-		/** Cors Option */
-		const origin = (origin?: string, cb?: any) => cb(null, true);
-		const corsOptions: CorsOptions = {
-			methods: 'GET,HEAD,OPTIONS,PUT,PATCH,POST,DELETE',
-			origin,
-		};
+		app.use(cors);
 
-		app.use(cors(corsOptions));
+		//Rutas con token
+		preRoutes(app);
 
 		//Routes
 		Routes(app);
