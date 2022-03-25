@@ -57,7 +57,7 @@ export const login = async (req: Request<any>, res: Response<any>, next: NextFun
 		};
 
 		const token: string = createToken(id!);
-		console.log(token);
+		//console.log(token);
 
 		//console.log(resUser);
 
@@ -70,7 +70,7 @@ export const login = async (req: Request<any>, res: Response<any>, next: NextFun
 
 export const register = async (req: Request<any>, res: Response<any>, next: NextFunction): Promise<void> => {
 	const user: any = req.body;
-	console.log('datauser', user);
+	//console.log('datauser', user);
 
 	try {
 		const validIdentClient = await getRepository(Client).findOne({
@@ -81,7 +81,7 @@ export const register = async (req: Request<any>, res: Response<any>, next: Next
 			relations: ['id_ident_type'],
 		});
 
-		console.log('resClient', validIdentClient);
+		//console.log('resClient', validIdentClient);
 
 		if (!validIdentClient) throw { message: 'Usted no esta afiliado a Tranred', code: 400 };
 
@@ -89,14 +89,14 @@ export const register = async (req: Request<any>, res: Response<any>, next: Next
 			id_client: validIdentClient.id,
 		});
 
-		console.log('existe ->', validIdContact);
+		//console.log('existe ->', validIdContact);
 		if (validIdContact) throw { message: 'Este usuario ya fue registrado', code: 400 };
 
 		const validUserEmail = await getRepository(Users).findOne({
 			email: user.email,
 		});
 
-		console.log('existe ->', validUserEmail);
+		//console.log('existe ->', validUserEmail);
 		if (validUserEmail) throw { message: 'El email ya existe', code: 400 };
 
 		const salt: string = await bcrypt.genSalt(10);

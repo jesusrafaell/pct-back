@@ -15,7 +15,7 @@ export const getTransactions = async (
 		throw { message: 'Es necesario un numero de Terminal', code: 400 };
 	}
 
-	console.log(terminal, ' -- ', dateInit, ' + ', dateEnd);
+	//console.log(terminal, ' -- ', dateInit, ' + ', dateEnd);
 
 	if (!terminal || !dateInit || !dateEnd)
 		throw { message: 'Es necesario un numero de Terminal y un rango de fecha', code: 400 };

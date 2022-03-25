@@ -25,7 +25,7 @@ const ident_type = async (): Promise<void> => {
 	//
 	const valid = await getRepository(Ident_type).find({ where: data });
 	if (!valid.length) await getRepository(Ident_type).save(data);
-	console.log('Listo IdentType');
+	//console.log('Listo IdentType');
 };
 
 const commerce = async (): Promise<void> => {
@@ -64,7 +64,7 @@ const commerce = async (): Promise<void> => {
 
 	const valid = await getRepository(Commerce).find();
 	if (!valid.length) await getRepository(Commerce).save(data);
-	console.log('Listo Comercio');
+	//console.log('Listo Comercio');
 };
 
 const afiliado = async (): Promise<void> => {
@@ -83,7 +83,7 @@ const afiliado = async (): Promise<void> => {
 
 	const valid = await getRepository(Afiliado).find();
 	if (!valid.length) await getRepository(Afiliado).save(data);
-	console.log('Listo Afiliado');
+	//console.log('Listo Afiliado');
 };
 
 const client = async (): Promise<void> => {
@@ -104,7 +104,7 @@ const client = async (): Promise<void> => {
 
 	const valid3 = await getRepository(Client).find();
 	if (!valid3.length) await getRepository(Client).save(data);
-	console.log('Listo Client');
+	//console.log('Listo Client');
 };
 
 createConnection().then(async () => {

@@ -23,16 +23,21 @@ createConnection()
 		app.set('port', 8085);
 
 		app.listen(app.get('port'), () => {
-			console.log('___________');
 			console.log('');
-			console.log('██████╗ ');
-			console.log('██╔══██╗');
-			console.log('██████╔╝');
-			console.log('██╔══██╗');
-			console.log('██████╔╝');
-			console.log('╚═════╝');
-			console.log('___________');
+			console.log(' ▄▄▄▄▄▄▄▄▄▄▄  ▄▄▄▄▄▄▄▄▄▄▄       ▄▄▄▄▄▄▄▄▄▄▄ ');
+			console.log('▐░░░░░░░░░░░▌▐░░░░░░░░░░░▌     ▐░░░░░░░░░░░▌');
+			console.log('▐░█▀▀▀▀▀▀▀█░▌▐░█▀▀▀▀▀▀▀▀▀       ▀▀▀▀█░█▀▀▀▀ ');
+			console.log('▐░▌       ▐░▌▐░▌                    ▐░▌     ');
+			console.log('▐░█▄▄▄▄▄▄▄█░▌▐░▌                    ▐░▌     ');
+			console.log('▐░░░░░░░░░░░▌▐░▌                    ▐░▌     ');
+			console.log('▐░█▀▀▀▀▀▀▀▀▀ ▐░▌                    ▐░▌     ');
+			console.log('▐░▌          ▐░▌                    ▐░▌     ');
+			console.log('▐░▌          ▐░█▄▄▄▄▄▄▄▄▄           ▐░▌     ');
+			console.log('▐░▌          ▐░░░░░░░░░░░▌          ▐░▌     ');
+			console.log(' ▀            ▀▀▀▀▀▀▀▀▀▀▀            ▀      ');
+			console.log('');
 			console.log('ON Port', 8085);
+			console.log('');
 		});
 	})
 	.catch((err) => console.log('DB ERR', err));
